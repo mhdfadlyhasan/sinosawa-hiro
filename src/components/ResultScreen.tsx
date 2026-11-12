@@ -87,7 +87,12 @@ export function ResultScreen({
                 className={`mistake-card ${index === 0 ? 'is-top' : ''}`}
                 style={{ '--accent': pack.accent } as CSSProperties}
               >
-                <span className="mistake-glyph">{unit}</span>
+                <span
+                  className="mistake-glyph"
+                  lang={pack.id === 'hangul' ? 'ko' : 'ja'}
+                >
+                  {unit}
+                </span>
                 <span className="mistake-romaji">
                   {pack.variants(unit)[0] ?? unit}
                 </span>
@@ -111,7 +116,12 @@ export function ResultScreen({
           <ul className="missed-list">
             {state.missed.map((entry, index) => (
               <li key={`${entry.prompt}-${index}`}>
-                <span className="missed-prompt">{entry.prompt}</span>
+                <span
+                  className="missed-prompt"
+                  lang={pack.id === 'hangul' ? 'ko' : 'ja'}
+                >
+                  {entry.prompt}
+                </span>
                 <span className="missed-arrow">→</span>
                 <span className="missed-answer">{entry.answer}</span>
               </li>

@@ -37,14 +37,21 @@ export function Leaderboard({ records }: LeaderboardProps) {
             onClick={() => setSelectedMode(pack.id)}
           >
             <span>{pack.label}</span>
-            <span className="tab-native">{pack.nativeLabel}</span>
+            <span className="tab-native" lang={pack.id === 'hangul' ? 'ko' : 'ja'}>
+              {pack.nativeLabel}
+            </span>
           </button>
         ))}
       </div>
 
       {rows.length === 0 ? (
         <div className="empty-state">
-          <span className="empty-glyph">{selectedPack?.sample}</span>
+          <span
+            className="empty-glyph"
+            lang={selectedMode === 'hangul' ? 'ko' : 'ja'}
+          >
+            {selectedPack?.sample}
+          </span>
           <p>No {selectedPack?.label} runs yet. Set the first record.</p>
         </div>
       ) : (

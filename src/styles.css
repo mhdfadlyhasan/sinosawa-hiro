@@ -22,6 +22,12 @@
     BlinkMacSystemFont, sans-serif;
   --font-glyph: 'Hiragino Sans', 'Apple SD Gothic Neo', 'Noto Sans CJK JP',
     'Noto Sans KR', 'Yu Gothic', sans-serif;
+  --font-hangul: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic',
+    sans-serif;
+}
+
+:lang(ko) {
+  --font-glyph: var(--font-hangul);
 }
 
 * {

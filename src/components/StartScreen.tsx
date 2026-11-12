@@ -55,11 +55,18 @@ export function StartScreen({ records, onStart }: StartScreenProps) {
               style={{ '--accent': pack.accent } as CSSProperties}
               onClick={() => onStart(pack.id)}
             >
-              <span className="mode-glyph">{pack.sample}</span>
+              <span className="mode-glyph" lang={pack.id === 'hangul' ? 'ko' : 'ja'}>
+                {pack.sample}
+              </span>
               <span className="mode-content">
                 <span className="mode-heading">
                   <span className="mode-title">{pack.label}</span>
-                  <span className="mode-native">{pack.nativeLabel}</span>
+                  <span
+                    className="mode-native"
+                    lang={pack.id === 'hangul' ? 'ko' : 'ja'}
+                  >
+                    {pack.nativeLabel}
+                  </span>
                 </span>
                 <span className="mode-description">{pack.description}</span>
                 <span className="mode-meta">

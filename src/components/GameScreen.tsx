@@ -78,7 +78,9 @@ export function GameScreen({
         >
           <span className="mode-dot" />
           {pack.label}
-          <span className="mode-chip-native">{pack.nativeLabel}</span>
+          <span className="mode-chip-native" lang={pack.id === 'hangul' ? 'ko' : 'ja'}>
+            {pack.nativeLabel}
+          </span>
         </div>
         <div className="run-clock">
           <span className="run-clock-label">Run</span>
