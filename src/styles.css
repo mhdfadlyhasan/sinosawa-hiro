@@ -304,8 +304,10 @@ p {
 .tab {
   --accent: var(--accent);
   display: inline-flex;
+  flex: 0 0 auto;
   align-items: baseline;
   gap: 7px;
+  white-space: nowrap;
   padding: 8px 15px;
   border: 0;
   border-radius: 999px;
@@ -711,10 +713,6 @@ td.date-cell {
   margin-top: clamp(14px, 3vw, 24px);
 }
 
-.skip-button {
-  min-width: 132px;
-}
-
 .level-progress {
   flex: 1;
   max-width: 370px;
@@ -992,6 +990,19 @@ td.date-cell {
     font-size: 0.72rem;
   }
 
+  .tabs {
+    display: flex;
+    width: 100%;
+  }
+
+  .tab {
+    flex: 1 1 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 8px 4px;
+  }
+
   .game-topbar {
     gap: 10px;
   }
@@ -1017,10 +1028,6 @@ td.date-cell {
 
   .level-progress {
     max-width: none;
-  }
-
-  .skip-button {
-    width: 100%;
   }
 
   .level-up-toast {

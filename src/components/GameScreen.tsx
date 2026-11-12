@@ -9,7 +9,6 @@ interface GameScreenProps {
   state: GameState;
   pack: ScriptPack;
   onSubmit: () => void;
-  onSkip: () => void;
   onEnd: () => void;
   onInput: (value: string) => void;
 }
@@ -18,7 +17,6 @@ export function GameScreen({
   state,
   pack,
   onSubmit,
-  onSkip,
   onEnd,
   onInput,
 }: GameScreenProps) {
@@ -42,11 +40,6 @@ export function GameScreen({
   );
   const remainingMs = config.questionTimeLimitMs - questionElapsed;
   const runElapsed = state.now - state.startedAt;
-  const skipRemainingMs = Math.max(
-    0,
-    config.skipUnlockMs - questionElapsed,
-  );
-  const canSkip = !state.locked && skipRemainingMs <= 0;
   const atMaxLevel = state.level >= config.maxSyllables;
   const levelUpVisible =
     state.levelUpAt !== null && state.now - state.levelUpAt < 1700;
@@ -171,17 +164,6 @@ export function GameScreen({
         </div>
 
         <div className="game-actions">
-          <button
-            type="button"
-            className="ghost-button skip-button"
-            onClick={onSkip}
-            disabled={!canSkip || state.locked}
-          >
-            {skipRemainingMs > 0
-              ? `Skip in ${Math.ceil(skipRemainingMs / 1000)}s`
-              : 'Skip'}
-          </button>
-
           <div className="level-progress">
             <div className="level-progress-head">
               <span>Level {state.level}</span>

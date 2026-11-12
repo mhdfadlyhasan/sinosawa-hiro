@@ -38,9 +38,6 @@ export function StartScreen({ records, onStart }: StartScreenProps) {
             <strong>+{config.correctedPoints}</strong> corrected
           </span>
           <span>
-            Skip after <strong>{config.skipUnlockMs / 1000}s</strong>
-          </span>
-          <span>
             Level up every <strong>{config.cleanStreakForLevelUp}</strong> clean
           </span>
         </div>

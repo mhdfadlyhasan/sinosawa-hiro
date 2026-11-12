@@ -51,7 +51,6 @@ export default function App() {
         state={game.state}
         pack={getScriptPack(game.state.mode)}
         onSubmit={game.submit}
-        onSkip={game.skip}
         onEnd={game.end}
         onInput={game.setInput}
       />

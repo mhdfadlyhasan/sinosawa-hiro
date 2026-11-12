@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react';
 import {
   createRun,
   endRun,
-  skipQuestion,
   submitAnswer,
   tick,
   updateInput,
@@ -15,7 +14,6 @@ export interface GameController {
   start: (mode: ScriptId) => void;
   reset: () => void;
   submit: () => void;
-  skip: () => void;
   end: () => void;
   setInput: (value: string) => void;
 }
@@ -53,12 +51,6 @@ export function useGame(): GameController {
     );
   }, []);
 
-  const skip = useCallback(() => {
-    setState((current) =>
-      current ? skipQuestion(current, Date.now()) : current,
-    );
-  }, []);
-
   const end = useCallback(() => {
     setState((current) => (current ? endRun(current, Date.now()) : current));
   }, []);
@@ -67,5 +59,5 @@ export function useGame(): GameController {
     setState((current) => (current ? updateInput(current, value) : current));
   }, []);
 
-  return { state, start, reset, submit, skip, end, setInput };
+  return { state, start, reset, submit, end, setInput };
 }
