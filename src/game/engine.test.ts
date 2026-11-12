@@ -67,6 +67,7 @@ describe('game engine', () => {
     let state = createRun('hangul', NOW);
     const answer = state.current.answer;
     const units = state.current.units;
+    const startedAt = state.questionStartedAt;
 
     for (let attempt = 0; attempt < 3; attempt += 1) {
       state = updateInput(state, 'wrong');
@@ -87,6 +88,7 @@ describe('game engine', () => {
     expect(state.questionNumber).toBe(2);
     expect(state.locked).toBe(false);
     expect(state.wrongAttempts).toBe(0);
+    expect(state.questionStartedAt).toBe(startedAt);
   });
 
   it('levels up after a clean streak and uses longer prompts next', () => {

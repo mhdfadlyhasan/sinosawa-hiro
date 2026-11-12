@@ -141,7 +141,11 @@ function timeoutRun(state: GameState, now: number): GameState {
   );
 }
 
-function nextQuestion(state: GameState, now: number): GameState {
+function nextQuestion(
+  state: GameState,
+  now: number,
+  keepTimer = false,
+): GameState {
   if (
     config.runTimeLimitMs > 0 &&
     now - state.startedAt >= config.runTimeLimitMs
@@ -164,7 +168,7 @@ function nextQuestion(state: GameState, now: number): GameState {
     mistakeRecorded: false,
     feedback: null,
     locked: false,
-    questionStartedAt: now,
+    questionStartedAt: keepTimer ? state.questionStartedAt : now,
     questionNumber: state.questionNumber + 1,
     now,
   };
@@ -189,7 +193,7 @@ export function tick(state: GameState, now: number): GameState {
         : config.feedbackDelayMs;
 
     if (state.feedback && now - state.feedback.at >= feedbackDelay) {
-      return nextQuestion(state, now);
+      return nextQuestion(state, now, state.feedback.kind === 'limit');
     }
 
     return { ...state, now };
