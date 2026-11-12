@@ -45,4 +45,7 @@ export const config = Object.freeze({
   feedbackDelayMs: Math.floor(
     numberFromEnv(import.meta.env.VITE_FEEDBACK_DELAY_MS, 450, 0, 5000),
   ),
+  skipRevealMs: Math.floor(
+    numberFromEnv(import.meta.env.VITE_SKIP_REVEAL_MS, 1500, 0, 10000),
+  ),
 });

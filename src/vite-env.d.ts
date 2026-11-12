@@ -11,6 +11,7 @@ interface ImportMetaEnv {
   readonly VITE_RUN_TIME_LIMIT_SECONDS?: string;
   readonly VITE_LEADERBOARD_SIZE?: string;
   readonly VITE_FEEDBACK_DELAY_MS?: string;
+  readonly VITE_SKIP_REVEAL_MS?: string;
 }
 
 interface ImportMeta {

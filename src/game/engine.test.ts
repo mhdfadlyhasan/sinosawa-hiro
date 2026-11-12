@@ -142,10 +142,20 @@ describe('game engine', () => {
     expect(state.locked).toBe(false);
     expect(state.answeredCount).toBe(0);
 
-    state = skipQuestion(state, NOW + config.skipUnlockMs);
+    const skippedAt = NOW + config.skipUnlockMs;
+    state = skipQuestion(state, skippedAt);
     expect(state.locked).toBe(true);
     expect(state.feedback?.kind).toBe('skip');
+    expect(state.feedback?.answer).toBe(state.current.answer);
     expect(state.answeredCount).toBe(1);
+
+    state = tick(state, skippedAt + config.skipRevealMs - 1);
+    expect(state.locked).toBe(true);
+    expect(state.questionNumber).toBe(1);
+
+    state = tick(state, skippedAt + config.skipRevealMs);
+    expect(state.locked).toBe(false);
+    expect(state.questionNumber).toBe(2);
   });
 
   it('finishes with a record containing score, time, and date', () => {

@@ -67,7 +67,7 @@ export function GameScreen({
     feedbackMessage = 'Not quite — try again.';
     feedbackTone = 'is-bad';
   } else if (feedback?.kind === 'skip') {
-    feedbackMessage = `Skipped. Answer: ${feedback.answer}`;
+    feedbackMessage = 'Skipped.';
     feedbackTone = 'is-warn';
   }
 
@@ -112,6 +112,13 @@ export function GameScreen({
         >
           {state.current.prompt}
         </div>
+
+        {feedback?.kind === 'skip' && (
+          <div className="answer-reveal" role="status" aria-live="polite">
+            <span className="answer-reveal-label">Answer</span>
+            <span className="answer-reveal-value">{feedback.answer}</span>
+          </div>
+        )}
 
         <div className="timer-row">
           <span

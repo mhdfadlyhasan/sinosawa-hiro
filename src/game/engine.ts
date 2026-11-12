@@ -179,10 +179,12 @@ export function tick(state: GameState, now: number): GameState {
   }
 
   if (state.locked) {
-    if (
-      state.feedback &&
-      now - state.feedback.at >= config.feedbackDelayMs
-    ) {
+    const feedbackDelay =
+      state.feedback?.kind === 'skip'
+        ? config.skipRevealMs
+        : config.feedbackDelayMs;
+
+    if (state.feedback && now - state.feedback.at >= feedbackDelay) {
       return nextQuestion(state, now);
     }
 
