@@ -63,6 +63,32 @@ describe('game engine', () => {
     }
   });
 
+  it('moves on and reveals the answer after three wrong attempts', () => {
+    let state = createRun('hangul', NOW);
+    const answer = state.current.answer;
+    const units = state.current.units;
+
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      state = updateInput(state, 'wrong');
+      state = submitAnswer(state, NOW + 100 * (attempt + 1));
+    }
+
+    expect(state.feedback?.kind).toBe('limit');
+    expect(state.feedback?.answer).toBe(answer);
+    expect(state.locked).toBe(true);
+    expect(state.answeredCount).toBe(1);
+    expect(state.missed).toHaveLength(1);
+    expect(state.mistakes[units[0]]).toBe(1);
+
+    state = tick(state, NOW + 300 + config.skipRevealMs - 1);
+    expect(state.questionNumber).toBe(1);
+
+    state = tick(state, NOW + 300 + config.skipRevealMs);
+    expect(state.questionNumber).toBe(2);
+    expect(state.locked).toBe(false);
+    expect(state.wrongAttempts).toBe(0);
+  });
+
   it('levels up after a clean streak and uses longer prompts next', () => {
     let state = createRun('hiragana', NOW);
     let clock = NOW;

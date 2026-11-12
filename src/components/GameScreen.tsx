@@ -29,8 +29,9 @@ export function GameScreen({
   }, [state.questionNumber, state.locked]);
 
   const feedback = state.feedback;
-  const frozenAt =
-    state.locked && feedback ? feedback.at : state.now;
+  const timerPaused =
+    state.locked && feedback !== null && feedback.kind !== 'limit';
+  const frozenAt = timerPaused ? feedback.at : state.now;
   const questionElapsed = Math.max(
     0,
     Math.min(
@@ -61,6 +62,9 @@ export function GameScreen({
     feedbackTone = 'is-bad';
   } else if (feedback?.kind === 'skip') {
     feedbackMessage = 'Skipped.';
+    feedbackTone = 'is-warn';
+  } else if (feedback?.kind === 'limit') {
+    feedbackMessage = 'Out of tries — moving on.';
     feedbackTone = 'is-warn';
   }
 
@@ -108,7 +112,7 @@ export function GameScreen({
           {state.current.prompt}
         </div>
 
-        {feedback?.kind === 'skip' && (
+        {(feedback?.kind === 'skip' || feedback?.kind === 'limit') && (
           <div className="answer-reveal" role="status" aria-live="polite">
             <span className="answer-reveal-label">Answer</span>
             <span className="answer-reveal-value">{feedback.answer}</span>

@@ -7,6 +7,8 @@ import {
 import type { ScriptId } from '../scripts';
 import type { GameState, MissedQuestion, RunRecord } from './types';
 
+const MAX_WRONG_ATTEMPTS = 3;
+
 function makeRunId(): string {
   if (typeof globalThis.crypto?.randomUUID === 'function') {
     return globalThis.crypto.randomUUID();
@@ -68,6 +70,7 @@ export function createRun(
     current,
     input: '',
     firstAttempt: true,
+    wrongAttempts: 0,
     mistakeRecorded: false,
     feedback: null,
     locked: false,
@@ -157,6 +160,7 @@ function nextQuestion(state: GameState, now: number): GameState {
     current,
     input: '',
     firstAttempt: true,
+    wrongAttempts: 0,
     mistakeRecorded: false,
     feedback: null,
     locked: false,
@@ -180,7 +184,7 @@ export function tick(state: GameState, now: number): GameState {
 
   if (state.locked) {
     const feedbackDelay =
-      state.feedback?.kind === 'skip'
+      state.feedback?.kind === 'skip' || state.feedback?.kind === 'limit'
         ? config.skipRevealMs
         : config.feedbackDelayMs;
 
@@ -215,10 +219,31 @@ export function submitAnswer(state: GameState, now: number): GameState {
 
   if (!state.current.accepted.includes(normalized)) {
     const mistake = recordMistake(state);
+    const wrongAttempts = state.wrongAttempts + 1;
+
+    if (wrongAttempts >= MAX_WRONG_ATTEMPTS) {
+      return {
+        ...state,
+        ...mistake,
+        wrongAttempts,
+        cleanStreak: 0,
+        answeredCount: state.answeredCount + 1,
+        firstAttempt: false,
+        input: '',
+        locked: true,
+        feedback: {
+          kind: 'limit',
+          answer: state.current.answer,
+          at: now,
+        },
+        now,
+      };
+    }
 
     return {
       ...state,
       ...mistake,
+      wrongAttempts,
       firstAttempt: false,
       input: '',
       locked: false,

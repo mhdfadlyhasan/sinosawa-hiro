@@ -2,7 +2,7 @@ import type { Question, ScriptId } from '../scripts';
 
 export type Phase = 'playing' | 'finished';
 
-export type FeedbackKind = 'correct' | 'wrong' | 'skip';
+export type FeedbackKind = 'correct' | 'wrong' | 'skip' | 'limit';
 
 export interface Feedback {
   kind: FeedbackKind;
@@ -44,6 +44,7 @@ export interface GameState {
   current: Question;
   input: string;
   firstAttempt: boolean;
+  wrongAttempts: number;
   mistakeRecorded: boolean;
   feedback: Feedback | null;
   locked: boolean;
