@@ -32,6 +32,9 @@ export const config = Object.freeze({
   cleanStreakForLevelUp: Math.floor(
     numberFromEnv(import.meta.env.VITE_CLEAN_STREAK_FOR_LEVEL_UP, 5, 1, 100),
   ),
+  maxWrongAttempts: Math.floor(
+    numberFromEnv(import.meta.env.VITE_MAX_WRONG_ATTEMPTS, 3, 1, 100),
+  ),
   startingLevel: Math.floor(
     numberFromEnv(import.meta.env.VITE_STARTING_LEVEL, 1, 1, maxSyllables),
   ),

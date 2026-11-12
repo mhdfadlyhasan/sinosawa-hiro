@@ -7,8 +7,6 @@ import {
 import type { ScriptId } from '../scripts';
 import type { GameState, MissedQuestion, RunRecord } from './types';
 
-const MAX_WRONG_ATTEMPTS = 3;
-
 function makeRunId(): string {
   if (typeof globalThis.crypto?.randomUUID === 'function') {
     return globalThis.crypto.randomUUID();
@@ -225,7 +223,7 @@ export function submitAnswer(state: GameState, now: number): GameState {
     const mistake = recordMistake(state);
     const wrongAttempts = state.wrongAttempts + 1;
 
-    if (wrongAttempts >= MAX_WRONG_ATTEMPTS) {
+    if (wrongAttempts >= config.maxWrongAttempts) {
       return {
         ...state,
         ...mistake,

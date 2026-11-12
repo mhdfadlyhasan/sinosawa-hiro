@@ -69,7 +69,7 @@ describe('game engine', () => {
     const units = state.current.units;
     const startedAt = state.questionStartedAt;
 
-    for (let attempt = 0; attempt < 3; attempt += 1) {
+    for (let attempt = 0; attempt < config.maxWrongAttempts; attempt += 1) {
       state = updateInput(state, 'wrong');
       state = submitAnswer(state, NOW + 100 * (attempt + 1));
     }
@@ -81,10 +81,11 @@ describe('game engine', () => {
     expect(state.missed).toHaveLength(1);
     expect(state.mistakes[units[0]]).toBe(1);
 
-    state = tick(state, NOW + 300 + config.skipRevealMs - 1);
+    const limitAt = NOW + 100 * config.maxWrongAttempts;
+    state = tick(state, limitAt + config.skipRevealMs - 1);
     expect(state.questionNumber).toBe(1);
 
-    state = tick(state, NOW + 300 + config.skipRevealMs);
+    state = tick(state, limitAt + config.skipRevealMs);
     expect(state.questionNumber).toBe(2);
     expect(state.locked).toBe(false);
     expect(state.wrongAttempts).toBe(0);
