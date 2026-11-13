@@ -19,7 +19,7 @@ const maxSyllables = Math.floor(
 
 export const config = Object.freeze({
   questionTimeLimitMs:
-    numberFromEnv(import.meta.env.VITE_QUESTION_TIME_LIMIT_SECONDS, 10, 1, 120) *
+    numberFromEnv(import.meta.env.VITE_QUESTION_TIME_LIMIT_SECONDS, 15, 1, 120) *
     1000,
   skipUnlockMs:
     numberFromEnv(import.meta.env.VITE_SKIP_UNLOCK_SECONDS, 5, 0, 120) * 1000,
